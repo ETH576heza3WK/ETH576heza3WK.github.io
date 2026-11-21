@@ -1,22 +1,25 @@
-name: GitHub Pages - CI
+name: GitHub Pages - Hexo
+
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - name: Mark workspace safe
-        run: git config --global --add safe.directory "${{ github.workspace }}"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       - name: Install and Build
         run: |
           npm install
@@ -24,9 +27,19 @@ jobs:
           npm run build
         env:
           CI: false
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4.6.8
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: public
+          path: ./public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
