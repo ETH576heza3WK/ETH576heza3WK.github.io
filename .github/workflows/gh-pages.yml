@@ -24,6 +24,8 @@ jobs:
           npm run build
         env:
           CI: false
+      - name: Add .nojekyll
+        run: touch public/.nojekyll
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4.6.8
         with:
