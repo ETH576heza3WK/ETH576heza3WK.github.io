@@ -1,10 +1,16 @@
 name: GitHub Pages - CI
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+
+# 显式授予 GITHUB_TOKEN 写入权限，解决 exit code 128
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,15 +19,22 @@ jobs:
         uses: actions/checkout@v4
         with:
           persist-credentials: false
+
+      - name: Mark workspace as safe directory
+        run: git config --global --add safe.directory "${{ github.workspace }}"
+
       - name: Install and Build 🔧
         run: |
           npm install
+          mkdir -p themes
+          git clone --depth 1 https://github.com/hexojs/hexo-theme-landscape themes/landscape
           npm run build
         env:
           CI: false
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.6.8
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: public # The folder the action should deploy.
+          BRANCH: gh-pages
+          FOLDER: public
