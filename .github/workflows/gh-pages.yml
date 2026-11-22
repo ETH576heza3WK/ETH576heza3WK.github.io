@@ -17,6 +17,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # 提前适配 Node.js 24，消除旧版 Node 20 警告
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
@@ -31,6 +32,11 @@ jobs:
           npm install
           rm -rf themes/warmpaper themes/landscape
           git clone --depth 1 https://github.com/finch-xu/hexo-theme-warmpaper.git themes/warmpaper
+          
+          # 👇 关键：用根目录的配置直接覆盖主题默认配置，防止英文菜单合并
+          cp _config.warmpaper.yml themes/warmpaper/_config.yml
+          rm _config.warmpaper.yml
+          
           npm run build
           touch public/.nojekyll
         env:
