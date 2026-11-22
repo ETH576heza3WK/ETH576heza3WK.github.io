@@ -1,0 +1,84 @@
+# Warmpaper Theme Configuration
+
+# Navigation menu
+menu:
+  Home: /
+  Archives: /archives
+  Tags: /tags
+  Categories: /categories
+  About: /about
+
+# Table of Contents (right sidebar on post pages)
+toc:
+  enable: true
+  max_depth: 3
+  min_depth: 2
+  list_number: false
+
+# Math (LaTeX) rendering via MathJax v4.
+# Requires a Markdown renderer that passes through $...$ (see README).
+# Per-post override: set `math: true` / `math: false` in a post's front-matter.
+math:
+  enable: true
+
+# Waline comment
+waline:
+  enable: false
+  serverURL: 'https://your-server-url'
+
+# Giscus comment (GitHub Discussions)
+# 到 https://giscus.app 生成 repo / category 的 ID 后填入
+giscus:
+  enable: false
+  repo: 'user/repo'
+  repo_id: ''
+  category: 'Announcements'
+  category_id: ''
+  mapping: 'pathname'
+  strict: '0'
+  reactions_enabled: '1'
+  emit_metadata: '0'
+  input_position: 'bottom'
+  lang: 'zh-CN'
+  # 主题名见 https://giscus.app(也可填自定义 CSS 的 URL)
+  theme_light: 'light'
+  theme_dark: 'dark'
+
+# CatCounter 访问量统计（https://github.com/finch-xu/CatCounter）
+# 部署到 Cloudflare Worker 后，在后台新建站点取得 token。
+# 站点的 Origin 白名单须包含博客域名；本地预览再加上 http://localhost:4000
+catcounter:
+  enable: false
+  endpoint: 'https://counter.example.com'   # Worker 域名，不带路径
+  token: ''                                  # 形如 cc_xxx
+  show_site: true    # 页脚显示「总访问 / 访客」
+  show_post: true    # 文章页 meta 行显示「阅读 N」
+  show_list: true    # 首页列表每张卡片显示「阅读 N」（每页多一次只读请求，不计数）
+  label_site_pv: '总访问'
+  label_site_uv: '访客'
+  label_page_pv: '阅读'
+
+# Profile (shown on homepage above post list)
+profile:
+  avatar: /images/logo.svg
+  description: ""
+  links:
+    # - name: GitHub
+    #  url: https://github.com/finch-xu/
+    #  icon: github
+    # - name: Email
+    #   url: mailto:your@email.com
+    #   icon: email
+    # - name: Twitter
+    #   url: https://twitter.com/yourname
+    #   icon: twitter
+    # - name: RSS
+    #   url: /atom.xml
+    #   icon: rss
+
+# Post excerpt
+excerpt_link: Read More
+
+# Footer
+copyright: ""
+
