@@ -1,4 +1,4 @@
-name: GitHub Pages - Hexo
+name: Deploy Hexo Blog
 
 on:
   push:
@@ -10,21 +10,29 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
-      - name: Checkout
+      - name: Checkout 🛎️
         uses: actions/checkout@v4
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Install and Build
+      - name: Install and Build 🔧
         run: |
           npm install
-          rm -rf themes/landscape
+          rm -rf themes/warmpaper themes/landscape
+          git clone --depth 1 https://github.com/finch-xu/hexo-theme-warmpaper.git themes/warmpaper
           npm run build
+          touch public/.nojekyll
         env:
           CI: false
 
